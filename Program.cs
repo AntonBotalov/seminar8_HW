@@ -36,6 +36,7 @@ void Task_4()
     int[,,] array = new int[ReadInt("first legth"), ReadInt("second legth"), ReadInt("third legth")];
     FillRandomTreeArray(array);
 
+
 }
 
 int ReadInt(string argumrntName)
@@ -150,18 +151,60 @@ void CompositionMatrix(int[,] a, int[,] b)
     }
 }
 
-// void FillRandomTreeArray(int[,,] array)
+void FillRandomTreeArray(int[,,] array)
 {
     Random random = new Random();
+    bool res = true;
     for (int i = 0; i < array.GetLength(0); i++)
     {
         for (int j = 0; j < array.GetLength(1); j++)
         {
             for (int k = 0; k < array.GetLength(2); k++)
             {
-                array[i,j,k] = random.Next(10, 100);;
-                Console.Write($"{array[i,j,k]}\t");
-                
+                array[i, j, k] = random.Next(10, 100);
+                while (res == true)
+                {
+                    array[i, j, k] = random.Next(10, 100);
+                    res = FindEliment(array[i, j, k], array);
+                }
+                res = true;
+                Console.Write($"{array[i, j, k]}\t");
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine();
+    }
+}
+
+bool FindEliment(int num, int[,,] array)
+{
+    bool res = false;
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            for (int k = 0; k < array.GetLength(2); k++)
+            {
+                if (num == array[i, j, k])
+                {
+                    res = true;
+                }
+            }
+        }
+    }
+    return res;
+
+}
+
+void Print3DArray(int[,,] array)
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            for (int k = 0; k < array.GetLength(2); k++)
+            {
+                Console.Write($"{array[i, j, k]}\t");
             }
             Console.WriteLine();
         }
@@ -200,7 +243,8 @@ while (inWork)
                 }
             case 4:
                 {
-                    //Task_4();
+                    Task_4();
+                    // не получается 
 
                     break;
                 }
