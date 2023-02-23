@@ -35,8 +35,12 @@ void Task_4()
 {
     int[,,] array = new int[ReadInt("first legth"), ReadInt("second legth"), ReadInt("third legth")];
     FillRandomTreeArray(array);
+}
 
-
+void Task_5()
+{
+    int[,] array = new int[ReadInt("first legth"), ReadInt("second legth")];
+    PrintMatrix(SpiralArray(array));
 }
 
 int ReadInt(string argumrntName)
@@ -154,20 +158,20 @@ void CompositionMatrix(int[,] a, int[,] b)
 void FillRandomTreeArray(int[,,] array)
 {
     Random random = new Random();
-    bool res = true;
+    bool[] usedNumbers = new bool[90];
     for (int i = 0; i < array.GetLength(0); i++)
     {
         for (int j = 0; j < array.GetLength(1); j++)
         {
+
             for (int k = 0; k < array.GetLength(2); k++)
             {
-                array[i, j, k] = random.Next(10, 100);
-                while (res == true)
+                do
                 {
                     array[i, j, k] = random.Next(10, 100);
-                    res = FindEliment(array[i, j, k], array);
                 }
-                res = true;
+                while (usedNumbers[array[i, j, k] - 10]);
+                usedNumbers[array[i, j, k] - 10] = true;
                 Console.Write($"{array[i, j, k]}\t");
             }
             Console.WriteLine();
@@ -176,41 +180,50 @@ void FillRandomTreeArray(int[,,] array)
     }
 }
 
-bool FindEliment(int num, int[,,] array)
+int[,] SpiralArray(int[,] array)
 {
-    bool res = false;
-    for (int i = 0; i < array.GetLength(0); i++)
-    {
-        for (int j = 0; j < array.GetLength(1); j++)
-        {
-            for (int k = 0; k < array.GetLength(2); k++)
-            {
-                if (num == array[i, j, k])
-                {
-                    res = true;
-                }
-            }
-        }
-    }
-    return res;
+    int n = array.GetLength(0);
+    int value = 1;
 
+    int rowStart = 0;
+    int rowEnd = n - 1;
+    int colStart = 0;
+    int colEnd = n - 1;
+
+    while (value <= n * n)
+    {
+        for (int i = colStart; i <= colEnd; i++)
+        {
+            array[rowStart, i] = value;
+            value++;
+        }
+
+        for (int i = rowStart + 1; i <= rowEnd; i++)
+        {
+            array[i, colEnd] = value;
+            value++;
+        }
+
+        for (int i = colEnd - 1; i >= colStart; i--)
+        {
+            array[rowEnd, i] = value;
+            value++;
+        }
+
+        for (int i = rowEnd - 1; i >= rowStart + 1; i--)
+        {
+            array[i, colStart] = value;
+            value++;
+        }
+
+        rowStart++;
+        rowEnd--;
+        colStart++;
+        colEnd--;
+    }
+    return array;
 }
 
-void Print3DArray(int[,,] array)
-{
-    for (int i = 0; i < array.GetLength(0); i++)
-    {
-        for (int j = 0; j < array.GetLength(1); j++)
-        {
-            for (int k = 0; k < array.GetLength(2); k++)
-            {
-                Console.Write($"{array[i, j, k]}\t");
-            }
-            Console.WriteLine();
-        }
-        Console.WriteLine();
-    }
-}
 
 
 bool inWork = true;
@@ -244,13 +257,12 @@ while (inWork)
             case 4:
                 {
                     Task_4();
-                    // не получается 
 
                     break;
                 }
             case 5:
                 {
-                    //Напишите программу
+                    Task_5();
 
                     break;
                 }
